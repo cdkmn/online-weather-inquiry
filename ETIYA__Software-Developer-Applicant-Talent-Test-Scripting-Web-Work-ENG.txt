@@ -1,0 +1,40 @@
+Have a nice day,
+
+Our company focuses on scripting; React JS, Node JS, Pure jQuery, Bootstrap v4, Angular1, Angular2, Pure Javascript technologies are used.
+We are very proud of our candidates who are able to contribute to the ongoing projects in our company.
+In this case, we give a mini practice and a small proficiency and programming visual acuity test.
+
+If you can implement an application that uses the following technologies to solve the problem mentioned above, then we will be able to discuss your possibilities for working with the related test.
+
+Technology :
+- Node JS (Backend)
+- React JS / Bootstrap / jQuery / Angular vs. (Frontend)
+
+Problem: Online Weather Inquiry (OWI) project
+0- Weather information will be obtained by parsing the JSON data using the free version of the API at https://www.wunderground.com/weather/api/d/docs.
+
+1- It is expected to develop a dynamic weather application that will work using the MySQL database (VT) management system.
+
+2- The application will be entered by specifying user name - password information.
+
+3- A table structure which can define 2 different user types in user authority admin / standard form will be created on VT.
+
+4 - Upon entry, the user will be shown a gore to the following type of menu authority:
+* Menu-1: Location Edit
+* Menu-2: Weather
+* Menu-3: User Profile
+* Menu-4: Reports
+
+5- Menu-1 and Menu-3 will only be visible to users with admin authority.
+
+6- Menu-1 will have a display structure with the ability to add, delete, update and list. On this screen new locations will be added as text to be used in the https://www.wunderground.com/weather/api/d/docs API to be kept on VT. For example; Any user like Istanbul, San Fransisco will be accepted. (The names that the https://www.wunderground.com/weather/api/d/docs API expects will be reset on the screen by the manual admin, and there is no need for extra checking, such as improper name control.)
+
+7- Menu-3 will include the ability to add, update, delete and list users. The admin user (username = root user) will not be able to delete or update the password. In VT, the first time the user table is created, manually entering this user and switching from the screen will be blocked for the user with only username = root.
+
+8- In Menu-2, when you click on the "Weather Query" button by selecting one of the locations that the user has entered in menu-1 on the ComboBox, you can access them via https://www.wunderground.com/weather/api/d/docs API the result will be displayed on the screen. : Each inquiry made will be logged in the following format in the following query date on VT:
+
+* querying user id - query time - querying location id - querying user ip address - query result - query result (in milliseconds) - query status (SUSPEND / NO RESPONSE)
+
+9- At the Menu-4, the inquiries made for the user selected from the ComboBox will be listed in the order of inquiry by order by inquiry time DESC. In the report screen, the query time interval, the location of the query and the query criteria can be filtered.
+
+Good luck with OWI project..:)

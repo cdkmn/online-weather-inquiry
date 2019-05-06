@@ -1,0 +1,32 @@
+{
+  "space_after_anon_function": true,
+  "space_before_conditional": true,
+  "other": " ",
+  "indent_size": 2,
+  "indent_char": " ",
+  "indent_level": 0,
+  "indent_with_tabs": false,
+  "indent_scripts": "normal",
+  "indent_style": "space",
+  "preserve_newlines": true,
+  "max_preserve_newlines": 2,
+  "object": {},
+  "wrap_attributes": "auto",
+  "brace_style": "collapse-preserve-inline",
+  "keep_array_indentation": true,
+  "arrow_parens": "as-needed",
+  "comma_first": false,
+  "end_with_newline": true,
+  "end_with_comma": true,
+  "end_with_semicolon": true,
+  "indent_chained_methods": true,
+  "indent_inner_html": true,
+  "quotes": "single",
+  "remove_trailing_whitespace": true,
+  "js": {
+    "wrap_line_length": 0
+  },
+  "vue": {
+    "wrap_line_length": 140
+  }
+}
