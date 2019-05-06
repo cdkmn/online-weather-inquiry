@@ -19,6 +19,7 @@
     "body-parser": "^1.19.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "helmet": "^3.18.0",
     "passport": "^0.4.0",
     "sequelize": "^5.8.5",
     "sqlite3": "^4.0.6"
