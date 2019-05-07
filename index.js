@@ -10,7 +10,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const models = require('./models');
 
-const app = express();
 const port = process.env.port || 8080;
 
 // Passport session setup.
@@ -50,6 +49,9 @@ const strategy = new LocalStrategy({ passReqToCallback: true }, (req, username, 
 });
 passport.use(strategy);
 
+const app = express();
+
+// configure Express
 // Set .html as the default template extension
 app.set('view engine', 'ejs');
 
