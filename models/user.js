@@ -1,12 +1,18 @@
-module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
-    username: DataTypes.STRING,
-    password: DataTypes.STRING,
-  });
-
-  User.associate = (models) => {
-    models.User.belongsTo(models.Role, { onDelete: 'CASCADE', foreignKey: { allowNull: false } });
+function associate(models) {
+  models.User.hasMany(models.Log);
+}
+function init(sequelize, DataTypes) {
+  const schema = {
+    username: { type: DataTypes.STRING, allowNull: false, unique: true },
+    password: { type: DataTypes.STRING, allowNull: false },
+    role: {
+      type: DataTypes.ENUM,
+      values: ['master', 'admin', 'user'],
+      allowNull: false,
+    },
   };
-
+  const User = sequelize.define('User', schema);
+  User.associate = associate;
   return User;
-};
+}
+module.exports = init;
