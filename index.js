@@ -1,4 +1,5 @@
 const path = require('path');
+const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -8,7 +9,9 @@ const helmet = require('helmet');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const compression = require('compression');
 const models = require('./models');
+const controllers = require('./controllers');
 
 const port = process.env.port || 8080;
 
@@ -47,10 +50,10 @@ const strategy = new LocalStrategy({ passReqToCallback: true }, (req, username, 
       .catch(() => done(null, false, req.flash('message', `Unknown user ${username}`)));
   });
 });
-passport.use(strategy);
+passport.use('login', strategy);
 
 const app = express();
-
+app.locals._ = _;
 // configure Express
 // Set .html as the default template extension
 app.set('view engine', 'ejs');
@@ -68,21 +71,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({
-  name: 'session',
+  name: 'owi-session',
   keys: ['owi-secret', 'jafhkjashfkjh', 'sd13asd54s6d4a'],
   maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  cookie: {
+    secure: true,
+    httpOnly: true,
+  },
 }));
 app.use(flash());
-// Initialize Passport!  Also use passport.session() middleware, to support
-// persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(require('./controllers'));
+app.use(compression());
+app.use(controllers(passport));
 
 models.sequelize.sync().then(() => {
   const defaults = {
     password: bcrypt.hashSync('root', 8),
-    role: 'master',
+    role: 'admin',
   };
   models.User
     .findOrCreate({ where: { username: 'root' }, defaults })

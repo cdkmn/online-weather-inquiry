@@ -1,0 +1,7 @@
+<%for (let i = 0; i < pages.length; i++) {%>
+    <%if (_.isNil(pages[i].role) || pages[i].role === user.role) {%>
+        <a class="<%=(pages[i].key === page) ? 'active' : ''%> item">
+            <%=pages[i].text%>
+        </a>
+    <%}%>
+<%}%>

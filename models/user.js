@@ -7,7 +7,7 @@ function init(sequelize, DataTypes) {
     password: { type: DataTypes.STRING, allowNull: false },
     role: {
       type: DataTypes.ENUM,
-      values: ['master', 'admin', 'user'],
+      values: ['admin', 'user'],
       allowNull: false,
     },
   };
