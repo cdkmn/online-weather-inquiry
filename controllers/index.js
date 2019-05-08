@@ -2,6 +2,9 @@ const express = require('express');
 
 const pages = [
   { role: null, key: 'weather', text: 'Weather' },
+  { role: 'admin', key: 'locations', text: 'Location Edit' },
+  { role: null, key: 'users', text: 'User Profile' },
+  { role: null, key: 'reports', text: 'Reports' },
 ];
 function isAuthenticated(req, res, next) {
   res.locals.pages = pages;
