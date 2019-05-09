@@ -2,6 +2,14 @@ const express = require('express');
 const { Location } = require('../models');
 
 const router = express.Router();
+
+function titleCase(str) {
+  return str.toLowerCase()
+    .split(' ')
+    .map(word => (word.charAt(0).toUpperCase() + word.slice(1)))
+    .join(' ');
+}
+
 function hasAuth(req, res, next) {
   if (req.user.role === 'admin') {
     return next();
@@ -45,5 +53,21 @@ router.get('/', (req, res) => {
 
 router.get('/list', list);
 router.get('/list/:page', list);
+
+router.post('/add', (req, res) => {
+  try {
+    const name = titleCase(req.body.location);
+    Location.create({ name })
+      .then(() => {
+        res.json({ status: true });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).end();
+      });
+  } catch (e) {
+    res.status(500).end();
+  }
+});
 
 module.exports = router;

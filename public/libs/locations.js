@@ -1,4 +1,5 @@
 /* global $ */
+const $form = $('#locationAddForm');
 function createList(page = 1, quantity = 20) {
   $('#locationLoading').addClass('active');
   $.ajax({
@@ -18,9 +19,38 @@ function createList(page = 1, quantity = 20) {
     .fail(err => console.log(err));
 }
 
-$('#locationAdd').click((e) => {
+$form.form({
+  fields: {
+    location: {
+      identifier: 'location',
+      rules: [
+        {
+          type: 'empty',
+          prompt: 'Please enter a location name',
+        },
+      ],
+    },
+  },
+});
+
+const $locationAdd = $('#locationAdd');
+$locationAdd.click((e) => {
   e.preventDefault();
-  console.log('add');
+  if ($form.form('validate form')) {
+    $locationAdd.addClass('disabled loading');
+    const data = $form.serialize();
+    $.ajax({
+      data,
+      type: 'Post',
+      url: '/locations/add',
+    }).done((res) => {
+      console.log(res);
+    })
+      .fail(err => console.log(err))
+      .always(() => {
+        $locationAdd.removeClass('disabled loading');
+      });
+  }
 });
 
 createList();

@@ -1,31 +1,32 @@
 <div class="ui vertical stripe segment">
-    <div class="ui middle aligned stackable grid container">
-        <div class="centered  row">
-            <div class="eight wide column">
-                <form id="locationAddForm" class="ui form">
-                    <div class="fields">
-                        <div class="eleven wide field required">
-                            <label>Location</label>
-                            <input name="location" type="text" placeholder="Location">
-                        </div>
-                        <div class="five wide field">
-                            <label>&nbsp;</label>
-                            <button id="locationAdd" class="positive ui right labeled icon button">
-                                <i class="right plus icon"></i>
-                                Add
-                            </button>
-                        </div>
-                    </div>
-                </form>
+  <div class="ui middle aligned stackable grid container">
+    <div class="centered  row">
+      <div class="eight wide column">
+        <form id="locationAddForm" class="ui form">
+          <div class="fields">
+            <div class="eleven wide field required">
+              <label>Location</label>
+              <input name="location" type="text" placeholder="Location">
             </div>
+            <div class="five wide field">
+              <label>&nbsp;</label>
+              <button id="locationAdd" class="positive ui right labeled icon button">
+                <i class="right plus icon"></i>
+                Add
+              </button>
+            </div>
+          </div>
+          <div class="ui error message"></div>
+        </form>
+      </div>
+    </div>
+    <div class="centered row">
+      <div class="column">
+        <div id="locationLoading" class="ui active inverted dimmer">
+          <div class="ui text loader">Loading</div>
         </div>
-        <div class="centered row">
-            <div class="column">
-                <div id="locationLoading" class="ui active inverted dimmer">
-                    <div class="ui text loader">Loading</div>
-                </div>
-                <div id="locationList" class="ui middle aligned divided list">
-                    <!--<div class="item">
+        <div id="locationList" class="ui middle aligned divided list">
+          <!--<div class="item">
                         <div class="right floated content">
                             <div class="ui primary right labeled icon button">
                                 <i class="right edit outline icon"></i>
@@ -67,26 +68,26 @@
                             Molly
                         </div>
                     </div>-->
-                </div>
-                <div class="ui pagination menu">
-                    <a class="active item">
-                        1
-                    </a>
-                    <div class="disabled item">
-                        ...
-                    </div>
-                    <a class="item">
-                        10
-                    </a>
-                    <a class="item">
-                        11
-                    </a>
-                    <a class="item">
-                        12
-                    </a>
-                </div>
-            </div>
         </div>
+        <div class="ui pagination menu">
+          <a class="active item">
+            1
+          </a>
+          <div class="disabled item">
+            ...
+          </div>
+          <a class="item">
+            10
+          </a>
+          <a class="item">
+            11
+          </a>
+          <a class="item">
+            12
+          </a>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 <script src="/libs/locations.js"></script>
