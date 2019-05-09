@@ -1,6 +1,6 @@
 <%for (let i = 0; i < pages.length; i++) {%>
     <%if (_.isNil(pages[i].role) || pages[i].role === user.role) {%>
-        <a class="<%=(pages[i].key === page) ? 'active' : ''%> item">
+        <a class="<%=(pages[i].key === page) ? 'active' : ''%> item" href="<%=pages[i].path%>">
             <%=pages[i].text%>
         </a>
     <%}%>

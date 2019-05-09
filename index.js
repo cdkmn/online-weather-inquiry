@@ -39,15 +39,15 @@ const strategy = new LocalStrategy({ passReqToCallback: true }, (req, username, 
     // username, or the password is not correct, set the user to `false` to
     // indicate failure and set a flash message.  Otherwise, return the
     // authenticated `user`.
-    models.User.findOne({ wehere: { username } })
+    models.User.findOne({ where: { username } })
       .then((user) => {
         const passValid = bcrypt.compareSync(password, user.password);
         if (passValid) {
           return done(null, user);
         }
-        return done(null, false, req.flash('message', 'Invalid password'));
+        return done(null, false, req.flash('error', 'Invalid password'));
       })
-      .catch(() => done(null, false, req.flash('message', `Unknown user ${username}`)));
+      .catch(() => done(null, false, req.flash('error', `Unknown user '${username}'`)));
   });
 });
 passport.use('login', strategy);
@@ -84,7 +84,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(compression());
 app.use(controllers(passport));
-
+app.use((req, res) => {
+  res.status(404).render('errors/404');
+});
 models.sequelize.sync().then(() => {
   const defaults = {
     password: bcrypt.hashSync('root', 8),

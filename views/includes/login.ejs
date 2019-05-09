@@ -2,7 +2,7 @@
   <div class="column">
     <h2 class="ui image header">
       <div class="content">
-      OWI Login
+      OWI Sing In
       </div>
     </h2>
     <form id="loginForm" action="/login" method="post" class="ui large form">
@@ -19,9 +19,11 @@
             <input type="password" name="password" placeholder="Password"/>
           </div>
         </div>
-        <div class="ui fluid large teal submit button">Login</div>
+        <div class="ui fluid large teal submit button">Sing In</div>
       </div>
-      <div class="ui error message">alsdşljsd</div>
+      <div class="ui error message" style="<%=(error.length > 0) ? 'display: block;' : ''%>">
+        <%=(error|| '')%>
+      </div>
     </form>
   </div>
 </div>
