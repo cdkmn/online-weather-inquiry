@@ -40,6 +40,7 @@ $(document).ready(() => {
     const id = $el.data('locationid');
     const value = $el.data('location');
     $('#locationEditForm [name="name"]').val(value);
+    $('#locationEditForm [name="id"]').val(id);
     $formEdit.form('validate form');
     $('#lModalEdit').find('.button').removeClass('disabled loading');
     $('#lModalEdit').modal({
