@@ -39,13 +39,16 @@ $(document).ready(() => {
     const $el = $(this);
     const id = $el.data('locationid');
     const value = $el.data('location');
-    $('#locationEditForm [name="location"]').val(value);
+    $('#locationEditForm [name="name"]').val(value);
     $formEdit.form('validate form');
+    $('#lModalEdit').find('.button').removeClass('disabled loading');
     $('#lModalEdit').modal({
       blurring: true,
       closable: false,
-      onApprove: () => {
+      onApprove: ($aprove) => {
         if ($formEdit.form('validate form')) {
+          $('#lModalEdit').find('.button').addClass('disabled');
+          $aprove.addClass('loading');
           console.log(id);
         }
         return false;
