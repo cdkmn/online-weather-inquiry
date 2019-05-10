@@ -49,7 +49,26 @@ $(document).ready(() => {
         if ($formEdit.form('validate form')) {
           $('#lModalEdit').find('.button').addClass('disabled');
           $aprove.addClass('loading');
-          console.log(id);
+          const data = $form.serialize();
+          $.ajax({
+            data,
+            type: 'Post',
+            url: '/locations',
+          }).done((res) => {
+            if (res.status) {
+              $form.form('reset');
+              return getLocations();
+            }
+            return Swal.fire({
+              type: 'error',
+              title: 'An Error Occurred',
+              text: res.message,
+            });
+          })
+            .fail(ajaxFailHandler)
+            .always(() => {
+              $locationAdd.removeClass('disabled loading');
+            });
         }
         return false;
       },
