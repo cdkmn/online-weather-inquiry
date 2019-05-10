@@ -1,7 +1,8 @@
-<div class="ui vertical stripe segment">
+<div class="ui basic segment">
   <div class="ui middle aligned stackable grid container">
     <div class="centered  row">
       <div class="eight wide column">
+        <br>
         <form id="locationAddForm" class="ui form">
           <div class="fields">
             <div class="eleven wide field required">
@@ -25,69 +26,25 @@
         <div id="locationLoading" class="ui active inverted dimmer">
           <div class="ui text loader">Loading</div>
         </div>
-        <div id="locationList" class="ui middle aligned divided list">
-          <!--<div class="item">
-                        <div class="right floated content">
-                            <div class="ui primary right labeled icon button">
-                                <i class="right edit outline icon"></i>
-                                Edit
-                            </div>
-                            <div class="ui negative right labeled icon button">
-                                <i class="right trash alternate outline icon"></i>
-                                Delete
-                            </div>
-                        </div>
-                        <div class="content">
-                            Lena
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="right floated content">
-                            <div class="ui button">Add</div>
-                        </div>
-                        <img class="ui avatar image" src="/images/avatar2/small/lindsay.png">
-                        <div class="content">
-                            Lindsay
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="right floated content">
-                            <div class="ui button">Add</div>
-                        </div>
-                        <img class="ui avatar image" src="/images/avatar2/small/mark.png">
-                        <div class="content">
-                            Mark
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="right floated content">
-                            <div class="ui button">Add</div>
-                        </div>
-                        <img class="ui avatar image" src="/images/avatar2/small/molly.png">
-                        <div class="content">
-                            Molly
-                        </div>
-                    </div>-->
-        </div>
-        <div class="ui pagination menu">
-          <a class="active item">
-            1
-          </a>
-          <div class="disabled item">
-            ...
-          </div>
-          <a class="item">
-            10
-          </a>
-          <a class="item">
-            11
-          </a>
-          <a class="item">
-            12
-          </a>
-        </div>
+        <div id="locationList" class="ui middle aligned divided list"></div>
       </div>
     </div>
+  </div>
+</div>
+<div id="lModalEdit" class="ui tiny modal">
+  <div class="header">Edit Location</div>
+  <div class="content">
+    <form id="locationEditForm" class="ui form">
+      <div class="field required">
+        <label>Location</label>
+        <input name="name" type="text" placeholder="Location">
+      </div>
+      <div class="ui error message edit"></div>
+    </form>
+  </div>
+  <div class="actions">
+    <div class="positive ui approve button">Save</div>
+    <div class="ui cancel button">Cancel</div>
   </div>
 </div>
 <script src="/libs/locations.js"></script>

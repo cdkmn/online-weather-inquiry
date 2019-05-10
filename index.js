@@ -10,7 +10,7 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const compression = require('compression');
-const models = require('./models');
+const { User, sequelize } = require('./models');
 const controllers = require('./controllers');
 
 const port = process.env.port || 8080;
@@ -21,10 +21,13 @@ const port = process.env.port || 8080;
 // this will be as simple as storing the user ID when serializing, and finding
 // the user by ID when deserializing.
 passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) => {
-  models.User.findByPk(id)
-    .then(user => done(null, user))
-    .catch(err => done(err));
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findByPk(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
 });
 
 // Use the LocalStrategy within Passport.
@@ -34,20 +37,21 @@ passport.deserializeUser((id, done) => {
 // however, in this example we are using a baked-in set of users.
 const strategy = new LocalStrategy({ passReqToCallback: true }, (req, username, password, done) => {
   // asynchronous verification, for effect...
-  process.nextTick(() => {
+  process.nextTick(async () => {
     // Find the user by username.  If there is no user with the given
     // username, or the password is not correct, set the user to `false` to
     // indicate failure and set a flash message.  Otherwise, return the
     // authenticated `user`.
-    models.User.findOne({ where: { username } })
-      .then((user) => {
-        const passValid = bcrypt.compareSync(password, user.password);
-        if (passValid) {
-          return done(null, user);
-        }
-        return done(null, false, req.flash('error', 'Invalid password'));
-      })
-      .catch(() => done(null, false, req.flash('error', `Unknown user '${username}'`)));
+    try {
+      const user = await User.findOne({ where: { username } });
+      const passValid = bcrypt.compareSync(password, user.password);
+      if (passValid) {
+        return done(null, user);
+      }
+      return done(null, false, req.flash('error', 'Invalid password'));
+    } catch (e) {
+      return done(null, false, req.flash('error', `Unknown user '${username}'`));
+    }
   });
 });
 passport.use('login', strategy);
@@ -87,15 +91,15 @@ app.use(controllers(passport));
 app.use((req, res) => {
   res.status(404).render('errors/404');
 });
-models.sequelize.sync().then(() => {
-  const defaults = {
-    password: bcrypt.hashSync('root', 8),
-    role: 'admin',
-  };
-  models.User
-    .findOrCreate({ where: { username: 'root' }, defaults })
-    .then(() => {
-      app.listen(port, () => console.log(`Listening on port ${port}`));
-    })
-    .catch(e => console.log(e));
+sequelize.sync().then(async () => {
+  try {
+    const defaults = {
+      password: bcrypt.hashSync('root', 8),
+      role: 'admin',
+    };
+    await User.findOrCreate({ where: { username: 'root' }, defaults });
+    app.listen(port, () => console.log(`Listening on port ${port}`));
+  } catch (e) {
+    console.log(e);
+  }
 });
