@@ -40,7 +40,6 @@ $(document).ready(() => {
     const id = $el.data('locationid');
     const value = $el.data('location');
     $('#locationEditForm [name="name"]').val(value);
-    $('#locationEditForm [name="id"]').val(id);
     $formEdit.form('validate form');
     $('#lModalEdit').find('.button').removeClass('disabled loading');
     $('#lModalEdit').modal({
@@ -53,8 +52,8 @@ $(document).ready(() => {
           const data = $form.serialize();
           $.ajax({
             data,
-            type: 'Post',
-            url: '/locations',
+            type: 'PUT',
+            url: `/locations/${id}`,
           }).done((res) => {
             if (res.status) {
               $form.form('reset');
