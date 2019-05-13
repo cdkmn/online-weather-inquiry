@@ -1,0 +1,38 @@
+<div class="ui basic segment">
+    <div class="ui middle aligned stackable grid container">
+        <div class="centered  row">
+            <div class="nine wide column">
+                <br>
+                <form id="getWeatherForm" class="ui form">
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Location</label>
+                            <div class="ui selection dropdown">
+                                <input type="hidden" name="location">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">Select Location...</div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>&nbsp;</label>
+                            <button id="getWeather" class="positive ui right labeled icon button">
+                                <i class="right redo icon"></i>
+                                Weather Query
+                            </button>
+                        </div>
+                    </div>
+                    <div class="ui error message"></div>
+                </form>
+            </div>
+        </div>
+        <div class="centered row">
+            <div id="weatherLoading" class="ui inverted dimmer">
+                <div class="ui text loader">Loading</div>
+            </div>
+            <div id="weatherHolder">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/libs/weather.js"></script>

@@ -1,14 +1,8 @@
 const express = require('express');
-const { Location, Sequelize } = require('../models');
+const bcrypt = require('bcryptjs');
+const { User, Sequelize } = require('../models');
 
 const router = express.Router();
-
-function titleCase(str) {
-  return str.toLowerCase()
-    .split(' ')
-    .map(word => (word.charAt(0).toUpperCase() + word.slice(1)))
-    .join(' ');
-}
 
 function hasAuth(req, res, next) {
   if (req.user.role === 'admin') {
@@ -19,9 +13,9 @@ function hasAuth(req, res, next) {
 
 async function listAll(req, res) {
   try {
-    const locations = await Location.findAll();
-    if (locations.length > 0) {
-      return res.json({ status: true, locations });
+    const users = await User.findAll();
+    if (users.length > 0) {
+      return res.json({ status: true, users });
     }
     return res.json({ status: false, message: 'Location record not found.' });
   } catch (e) {
@@ -34,11 +28,11 @@ async function list(req, res) {
     const page = parseInt(req.params.page, 10) || 1;
     const limit = parseInt(req.query.quantity, 10) || 20;
     const offset = (page - 1) * limit;
-    const result = await Location.findAndCountAll({ offset, limit, order: [['id', 'DESC']] });
+    const result = await User.findAndCountAll({ offset, limit, order: [['id', 'DESC']] });
     if (result.count > 0) {
-      return res.json({ status: true, totalCount: result.count, locations: result.rows });
+      return res.json({ status: true, totalCount: result.count, users: result.rows });
     }
-    return res.json({ status: false, message: 'Location record not found.' });
+    return res.json({ status: false, message: 'User record not found.' });
   } catch (err) {
     console.log(err);
     if (err instanceof Sequelize.BaseError) {
@@ -48,24 +42,21 @@ async function list(req, res) {
   }
 }
 
-router.get('/list', listAll);
-router.get('/list/:page', list);
-
 router.all('*', hasAuth);
 
 router.get('/', (req, res) => {
-  res.locals.page = 'locations';
-  res.render('index', { title: 'OWI Locations' });
+  res.locals.page = 'users';
+  res.render('index', { title: 'OWI Users' });
 });
 router.post('/', async (req, res) => {
+  const { username, password, role } = req.body;
   try {
-    const name = titleCase(req.body.location);
-    await Location.create({ name });
+    const hashedPass = bcrypt.hashSync(password, 8);
+    await User.create({ username, password: hashedPass, role });
     return res.json({ status: true });
   } catch (err) {
     if (err instanceof Sequelize.UniqueConstraintError) {
-      const name = titleCase(req.body.location);
-      return res.json({ status: false, message: `'${name}' already exists.` });
+      return res.json({ status: false, message: `'${username}' already exists.` });
     }
     return res.status(500).end();
   }
@@ -74,14 +65,13 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
-    const { name } = req.body;
+    const { username, role } = req.body;
     if (!Number.isNaN(id)) {
-      await Location.update({ name }, { where: { id } });
+      await User.update({ username, role }, { where: { id } });
       return res.json({ status: true });
     }
     throw new Error('Bad Request');
   } catch (err) {
-    console.log(err);
     if (err instanceof Sequelize.BaseError) {
       return res.status(500).end();
     }
@@ -93,7 +83,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
     if (!Number.isNaN(id)) {
-      await Location.destroy({ where: { id } });
+      await User.destroy({ where: { id } });
       return res.json({ status: true });
     }
     throw new Error('Bad Request');
@@ -104,5 +94,8 @@ router.delete('/:id', async (req, res) => {
     return res.status(400).end();
   }
 });
+
+router.get('/list', listAll);
+router.get('/list/:page', list);
 
 module.exports = router;

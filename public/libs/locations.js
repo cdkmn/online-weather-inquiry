@@ -1,7 +1,7 @@
 /* global $,document,createPaging,Swal,ajaxFailHandler */
 $(document).ready(() => {
   const $form = $('#locationAddForm');
-  const $formEdit = $('#lModalEdit');
+  const $formEdit = $('#locationEditForm');
   const $locationAdd = $('#locationAdd');
   function deleteLocation() {
     const $el = $(this);
@@ -37,26 +37,26 @@ $(document).ready(() => {
   }
   function editLocation() {
     const $el = $(this);
+    const $buttons = $('#lModalEdit').find('.button');
     const id = $el.data('locationid');
     const value = $el.data('location');
     $('#locationEditForm [name="name"]').val(value);
     $formEdit.form('validate form');
-    $('#lModalEdit').find('.button').removeClass('disabled loading');
     $('#lModalEdit').modal({
       blurring: true,
       closable: false,
       onApprove: ($aprove) => {
         if ($formEdit.form('validate form')) {
-          $('#lModalEdit').find('.button').addClass('disabled');
+          $buttons.addClass('disabled');
           $aprove.addClass('loading');
-          const data = $form.serialize();
+          const data = $formEdit.serialize();
           $.ajax({
             data,
             type: 'PUT',
             url: `/locations/${id}`,
           }).done((res) => {
             if (res.status) {
-              $form.form('reset');
+              $('#lModalEdit').modal('hide');
               return getLocations();
             }
             return Swal.fire({
@@ -67,7 +67,7 @@ $(document).ready(() => {
           })
             .fail(ajaxFailHandler)
             .always(() => {
-              $locationAdd.removeClass('disabled loading');
+              $buttons.removeClass('disabled loading');
             });
         }
         return false;

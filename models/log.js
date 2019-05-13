@@ -2,11 +2,13 @@ function associate(models) {
   models.Log.belongsTo(models.User, {
     foreignKey: { allowNull: false },
   });
+  models.Log.belongsTo(models.Location, {
+    foreignKey: { allowNull: false },
+  });
 }
 function init(sequelize, DataTypes) {
   const schema = {
-    queryTime: { type: DataTypes.STRING, allowNull: false, unique: true },
-    locationId: DataTypes.STRING,
+    queryTime: { type: DataTypes.DATE, allowNull: false, unique: true },
     userIp: DataTypes.STRING,
     queryResult: DataTypes.TEXT,
     queryDuration: DataTypes.BIGINT,
